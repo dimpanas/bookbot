@@ -1,4 +1,5 @@
-from stats import count_words, count_charachters
+import sys
+from stats import count_words, count_charachters, sort_char_count, print_report
 
 def get_book_text(filepath):
     try:
@@ -9,15 +10,19 @@ def get_book_text(filepath):
     except Exception as e:
         return f"An error occurred: {e}"
     
-def count_words(text):
-    return len(text.split())
-
 
 def main():
-    book_text = get_book_text("books/frankenstein.txt")
-    count_chars = count_charachters(book_text)
-    print(f"{count_words(book_text)} words found in the document")
-    print(count_chars)
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+
+    bookPath = sys.argv[1]
+    bookText = get_book_text(bookPath)
+    countWords = count_words(bookText)
+    countChars = count_charachters(bookText)
+    sortChar = sort_char_count(countChars)
+    print_report(bookText, countWords, sortChar)
+
 
 if __name__ == "__main__":
     main()
